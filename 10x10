@@ -20,7 +20,7 @@ def select_mark():# Выбор игроком своей роли
 
 remain_cells = [str(i) for i in range(1,101)] 
 
-def put_mark_remove_cell(index, mark, remain_cells, board):#Установка маркера в ячейку и удаления ячейки из списка оставшихся ячеек
+def put_mark_remove_cell(index, mark, remain_cells, board):#Установка маркера в ячейку и удаление ячейки из списка оставшихся ячеек
 	remain_cells.remove(board[index])
 	board[index] = mark
 
