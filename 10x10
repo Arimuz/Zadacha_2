@@ -2,13 +2,13 @@ import random
 
 board = [str(i) for i in range(1,101)] 
 
-def print_board(board):
+def print_board(board):# Вывод доски на экран
 	for i in range(100):
 		print(board[i], end='\t')
 		if (i + 1) % 10 == 0:
 			print('\n')
 
-def select_mark():
+def select_mark():# Выбор игроком своей роли
 	player_mark = ''
 	while player_mark not in ('X', 'O'):
 		player_mark = input('Please, choose your marker: X or O: ').upper()
@@ -20,12 +20,12 @@ def select_mark():
 
 remain_cells = [str(i) for i in range(1,101)] 
 
-def put_mark_remove_cell(index, mark, remain_cells, board):
+def put_mark_remove_cell(index, mark, remain_cells, board):#Установка маркера в ячейку и удаления ячейки из списка оставшихся ячеек
 	remain_cells.remove(board[index])
 	board[index] = mark
 
 
-def check_diagonal_line(index, mark, board):
+def check_diagonal_line(index, mark, board):# Проверка ряда по двум диагоналям
 	count = 1
 	step = 0
 	for i in range(9-index//10):
@@ -73,7 +73,7 @@ def check_diagonal_line(index, mark, board):
 	if count >= 5:
 		return True
 
-def check_gorizontal_line(index, mark, board):
+def check_gorizontal_line(index, mark, board):#Проверка ряда по горизонтали
 	count = 1
 	step = 1
 	while True:
@@ -97,7 +97,7 @@ def check_gorizontal_line(index, mark, board):
 	if count >= 5:
 		return True
 
-def check_vertical_line(index, mark, board):
+def check_vertical_line(index, mark, board):#Проверка ряда по вертикали
 	count = 1
 	step = 10
 	while True:
@@ -120,11 +120,11 @@ def check_vertical_line(index, mark, board):
 	if count >= 5:
 		return True
 
-def check_game_finish(index, mark, board):
+def check_game_finish(index, mark, board):# Финальная проверка на наличие пяти маркеров подряд
 	if check_gorizontal_line(index, mark, board) or check_vertical_line(index, mark, board) or check_diagonal_line(index, mark, board):
 		return True
 
-def replay():
+def replay():#Функция для начала новой игры
     decision = ""
     while decision not in ('y', 'n'):
         decision = input(
@@ -133,12 +133,12 @@ def replay():
 
     return decision == 'y'
 
-def clear_screen():
+def clear_screen():# Очищение экрана путём добавления пустых строк
     print('\n' * 100)
 
 
 
-def computer_loose_check(computer_mark, remain_cells, board):
+def computer_loose_check(computer_mark, remain_cells, board):#Проверка хода компьютера, набирается 5 в ряд и он ищет новую позицию
 	remain_cells_in_cycle = remain_cells.copy()	
 	for i in range(len(remain_cells)):
 		index = int(random.choice(remain_cells_in_cycle)) - 1
@@ -154,10 +154,10 @@ def computer_loose_check(computer_mark, remain_cells, board):
 		else:
 			return False	
 
-def space_check(index, board):
+def space_check(index, board): # Проверка занята ли уже ячейка
 		return board[index] in ('X', 'O')
 
-def start_new_game():
+def start_new_game(): # Начало новой игры
 	board = [str(i) for i in range( 1,101)]
 	remain_cells = [str(i) for i in range(1,101)]
 	player_mark, computer_mark = select_mark()
@@ -166,10 +166,10 @@ def start_new_game():
 
 player_mark, computer_mark = select_mark()
 
-def main_game(player_mark, computer_mark, board, remain_cells):
+def main_game(player_mark, computer_mark, board, remain_cells):# Основная функция игры
 	print_board(board)
 	print('\n\n')
-	while True:
+	while True:# Ход игрока
 		if len(remain_cells) > 0:
 			index = int(input('Choose your next position : ')) - 1
 			assert index in range(100),'Wrong value.'
@@ -189,7 +189,7 @@ def main_game(player_mark, computer_mark, board, remain_cells):
 					return
 			
 
-			if computer_loose_check(computer_mark, remain_cells, board): 
+			if computer_loose_check(computer_mark, remain_cells, board): #Ход компьютера
 				print_board(board)
 				continue
 			else:
@@ -204,7 +204,7 @@ def main_game(player_mark, computer_mark, board, remain_cells):
 					return
 			print_board(board)	
 		else:
-			print('The game ended in a draw.')
+			print('The game ended in a draw.') # Ничья
 			if replay():
 				board, remain_cells, player_mark, computer_mark = start_new_game()
 				print_board(board)
